@@ -9,8 +9,8 @@ st.set_page_config(page_title="肺纤维化病理自动化分析平台", layout=
 def calculate_ashcroft(density):
     """根据组织密度估算 Ashcroft 评分"""
     if density <= 12: return 0.0
-    score = (density - 12) * 8 / (75 - 12)
-    return round(min(max(score, 0), 8), 1)
+    score = (density * 2 - 12) * 8 / (75 - 12)
+    return round(min(max(score, 0), 5), 0.1)
 
 def process_image(uploaded_file):
     """处理上传的图片文件"""
@@ -63,4 +63,5 @@ if uploaded_files:
     
     # 提供 CSV 下载按钮
     csv = df.to_csv(index=False).encode('utf_8_sig')
+
     st.download_button("下载分析报告 (CSV)", data=csv, file_name="pathology_report.csv", mime="text/csv")
